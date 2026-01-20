@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABC Commons App - User Guide</title>
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --primary: #10b981;
+            --secondary: #c084fc;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary), #059669);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-top: 40px;
+            border-left: 4px solid var(--secondary);
+            padding-left: 15px;
+        }
+
+        .step {
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #334155;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-right: 8px;
+        }
+
+        .badge-voter {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--primary);
+        }
+
+        .badge-research {
+            background: rgba(192, 132, 252, 0.2);
+            color: var(--secondary);
+        }
+
+        .important {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-top: 10px;
+            border: 1px solid #334155;
+        }
+
+        code {
+            background: #0f172a;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: var(--secondary);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>ABC "Beacon" User Guide</h1>
+            <p style="color: var(--text-muted);">The official manual for governing the Aligned Beacon Commons Protocol.
+            </p>
+        </header>
+
+        <div class="important">
+            <strong>⚠️ Requirement:</strong> You must have a Web3 wallet (Coinbase Wallet, MetaMask, or Rainbow) and
+            some <strong>ETH on Base</strong> to pay for gas fees.
+        </div>
+
+        <h2>1. Getting Started</h2>
+        <div class="step">
+            <h3>Connect Your Wallet</h3>
+            <ol>
+                <li>Navigate to the <strong>Governance Hub</strong> (Home).</li>
+                <li>Click the <button
+                        style="background:var(--text-main); color:black; border:none; padding:4px 8px; border-radius:4px; font-weight:bold;">Connect
+                        Wallet</button> button in the top right.</li>
+                <li>Select your preferred wallet and sign the connection request.</li>
+                <li>Once connected, you will see your wallet address and balance.</li>
+            </ol>
+        </div>
+
+        <h2>2. For Voters</h2>
+        <div class="step">
+            <span class="badge badge-voter">Governance</span>
+            <h3>Discovering & Voting</h3>
+            <p>Your primary role is to signal conviction on high-impact research proposals.</p>
+            <ul>
+                <li><strong>Browse Proposals:</strong> Use the "Active Proposals" feed. You can filter by "Hot" or "High
+                    Authority".</li>
+                <li><strong>Check Authority:</strong> Look for Gold/Platinum badges. These proposers have a proven track
+                    record.</li>
+                <li><strong>Vote:</strong> Click "Vote with Conviction" on any proposal card. This will prompt a
+                    transaction signature to cast your vote on-chain.</li>
+            </ul>
+        </div>
+
+        <h2>3. For Researchers</h2>
+        <div class="step">
+            <span class="badge badge-research">Grants</span>
+            <h3>Creating a Proposal</h3>
+            <p>Need funding for AI safety research? Apply for a grant.</p>
+            <ol>
+                <li>Click <strong>+ Create Proposal</strong> on the home page.</li>
+                <li><strong>Details:</strong> Enter your title, abstract, and tags. Upload your full PDF/Markdown spec
+                    to IPFS.</li>
+                <li><strong>Logistics:</strong> Define your requested budget ($ABC) and timeline.</li>
+                <li><strong>Stake:</strong> You must stake <strong>500 ABC</strong> to prevent spam. This is returned if
+                    your proposal is valid.</li>
+            </ol>
+        </div>
+        <div class="step">
+            <h3>Managing Work</h3>
+            <p>Go to the <strong>My Bounties</strong> tab to track your active grants and submit evidence (code/papers)
+                for verification.</p>
+        </div>
+
+        <h2>4. For Verifiers</h2>
+        <div class="step">
+            <h3>Reviewing Evidence</h3>
+            <p><strong>Who can verify?</strong> While all ABC holders can view evidence, only <strong>High-reputation
+                    users (Gold Tier+)</strong> are selected to vote on fund release to ensure security.</p>
+            <ul>
+                <li><strong>Review Code:</strong> Inspect the submitted code/PDFs in the "Evidence Panel".</li>
+                <li><strong>Vote:</strong> Choose to <strong>Approve</strong> (release funds) or <strong>Reject</strong>
+                    (if requirements aren't met).</li>
+                <li><strong>Consensus:</strong> Funds are only released when a majority of selected verifiers (e.g. 3/5)
+                    approve.</li>
+            </ul>
+        </div>
+
+        <h2>5. Analytics</h2>
+        <div class="step">
+            <h3>Strategic Oversight</h3>
+            <p>Visit the <strong>Analytics</strong> tab to see where capital is flowing (e.g., "Interpretability vs.
+                Control") and ensure the ecosystem remains balanced.</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
