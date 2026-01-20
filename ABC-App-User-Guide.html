@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ABC Commons App - User Guide</title>
+    <title>ABC Beacon App - User Guide</title>
     <style>
         :root {
             --bg-dark: #0f172a;
@@ -111,82 +111,89 @@
     <div class="container">
         <header>
             <h1>ABC "Beacon" User Guide</h1>
-            <p style="color: var(--text-muted);">The official manual for governing the Aligned Beacon Commons Protocol.
-            </p>
+            <p style="color: var(--text-muted);">The official manual for coordinating and funding public-facing AI
+                alignment research.</p>
         </header>
 
         <div class="important">
-            <strong>⚠️ Requirement:</strong> You must have a Web3 wallet (Coinbase Wallet, MetaMask, or Rainbow) and
-            some <strong>ETH on Base</strong> to pay for gas fees.
+            <strong>⚠️ Requirement:</strong> You must have a Web3 wallet (Coinbase Wallet, MetaMask) and some
+            <strong>ETH on Base</strong>.
         </div>
 
-        <h2>1. Getting Started</h2>
+        <h2>1. Core Concepts</h2>
         <div class="step">
-            <h3>Connect Your Wallet</h3>
-            <ol>
-                <li>Navigate to the <strong>Governance Hub</strong> (Home).</li>
-                <li>Click the <button
-                        style="background:var(--text-main); color:black; border:none; padding:4px 8px; border-radius:4px; font-weight:bold;">Connect
-                        Wallet</button> button in the top right.</li>
-                <li>Select your preferred wallet and sign the connection request.</li>
-                <li>Once connected, you will see your wallet address and balance.</li>
-            </ol>
+            <h3>What is ABC Beacon?</h3>
+            <p>An on-chain infrastructure to curate and fund AI safety research. It solves the "signal crisis" by paying
+                experts to evaluate new work and creating objective, verifiable reputation scores.</p>
         </div>
 
-        <h2>2. For Voters</h2>
+        <h2>2. Authority Score & Tiers</h2>
         <div class="step">
-            <span class="badge badge-voter">Governance</span>
-            <h3>Discovering & Voting</h3>
-            <p>Your primary role is to signal conviction on high-impact research proposals.</p>
+            <h3>How It Works</h3>
+            <p>Your <strong>Authority Score</strong> is a verifiable track record of expertise. It is calculated by:</p>
             <ul>
-                <li><strong>Browse Proposals:</strong> Use the "Active Proposals" feed. You can filter by "Hot" or "High
-                    Authority".</li>
-                <li><strong>Check Authority:</strong> Look for Gold/Platinum badges. These proposers have a proven track
-                    record.</li>
-                <li><strong>Vote:</strong> Click "Vote with Conviction" on any proposal card. This will prompt a
-                    transaction signature to cast your vote on-chain.</li>
+                <li><strong>Activity Points:</strong> Earned for correct predictions and completed bounties.</li>
+                <li><strong>Conviction Multiplier:</strong> 2x bonus for being an "Early Bird" (first 25%).</li>
+                <li><strong>Specialization:</strong> 1.5x bonus if >70% of your work is in one domain (e.g.,
+                    Interpretability).</li>
+            </ul>
+
+            <h3 style="margin-top: 20px;">Tiers</h3>
+            <ul>
+                <li><strong style="color: #cd7f32;">Bronze (100-500):</strong> Curate papers & view bounties.</li>
+                <li><strong style="color: #c0c0c0;">Silver (500-1k):</strong> Propose new bounties (Stake required).
+                </li>
+                <li><strong style="color: #ffd700;">Gold (1k-2k):</strong> Claim bounties for pay & Verified Curator
+                    status.</li>
+                <li><strong style="color: #e5e4e2;">Platinum (2k-3k):</strong> <strong>Verifier Access</strong> (Judge
+                    submissions) & Eligible for ASIP Committee.</li>
+                <li><strong style="color: #b9f2ff;">Diamond (3k+):</strong> Thought Leader status & Automatic Committee
+                    consideration.</li>
             </ul>
         </div>
 
-        <h2>3. For Researchers</h2>
+        <h2>3. For Researchers (Bounties)</h2>
         <div class="step">
             <span class="badge badge-research">Grants</span>
-            <h3>Creating a Proposal</h3>
-            <p>Need funding for AI safety research? Apply for a grant.</p>
+            <h3>Getting Funded</h3>
             <ol>
-                <li>Click <strong>+ Create Proposal</strong> on the home page.</li>
-                <li><strong>Details:</strong> Enter your title, abstract, and tags. Upload your full PDF/Markdown spec
-                    to IPFS.</li>
-                <li><strong>Logistics:</strong> Define your requested budget ($ABC) and timeline.</li>
-                <li><strong>Stake:</strong> You must stake <strong>500 ABC</strong> to prevent spam. This is returned if
-                    your proposal is valid.</li>
+                <li><strong>Propose:</strong> Users (Silver+) can create a bounty proposal. Staking <strong>500
+                        ABC</strong> is required to prevent spam.</li>
+                <li><strong>Claim:</strong> Experts (Gold+) can claim active bounties to work on.</li>
+                <li><strong>Submit:</strong> Upload your evidence (PDF/Code) to IPFS via the "My Bounties" tab.</li>
             </ol>
         </div>
-        <div class="step">
-            <h3>Managing Work</h3>
-            <p>Go to the <strong>My Bounties</strong> tab to track your active grants and submit evidence (code/papers)
-                for verification.</p>
-        </div>
 
-        <h2>4. For Verifiers</h2>
+        <h2>4. For Verifiers (Governance)</h2>
         <div class="step">
-            <h3>Reviewing Evidence</h3>
-            <p><strong>Who can verify?</strong> While all ABC holders can view evidence, only <strong>High-reputation
-                    users (Gold Tier+)</strong> are selected to vote on fund release to ensure security.</p>
+            <h3>The Verifier Dashboard</h3>
+            <p><strong>Restricted Access:</strong> Only <strong>Platinum+</strong> members can access the Verifier
+                Dashboard (Password protected).</p>
             <ul>
-                <li><strong>Review Code:</strong> Inspect the submitted code/PDFs in the "Evidence Panel".</li>
-                <li><strong>Vote:</strong> Choose to <strong>Approve</strong> (release funds) or <strong>Reject</strong>
-                    (if requirements aren't met).</li>
-                <li><strong>Consensus:</strong> Funds are only released when a majority of selected verifiers (e.g. 3/5)
-                    approve.</li>
+                <li><strong>Review:</strong> Inspect code and results from submitted bounties.</li>
+                <li><strong>Consensus:</strong> 3/5 verifiers must vote "Approve" to release funds.</li>
+                <li><strong>Slashing:</strong> Verifiers who vote against the majority maliciously may lose their stake.
+                </li>
             </ul>
         </div>
 
-        <h2>5. Analytics</h2>
+        <h2>5. ASIP Integration</h2>
+        <div class="step">
+            <h3>The "Talent Pipeline"</h3>
+            <p>High-performing contributors don't just earn money; they earn influence.</p>
+            <ul>
+                <li><strong>Grant Committee:</strong> Reaching Platinum Tier makes you eligible to join the ASIP Grant
+                    Committee, directing millions in funding.</li>
+                <li><strong>Strategic Prioritization:</strong> Aggregate data from ABC (e.g., "High quality but low
+                    funding in Agent Foundations") guides ASIP's $50M strategy.</li>
+            </ul>
+        </div>
+
+        <h2>6. Analytics</h2>
         <div class="step">
             <h3>Strategic Oversight</h3>
-            <p>Visit the <strong>Analytics</strong> tab to see where capital is flowing (e.g., "Interpretability vs.
-                Control") and ensure the ecosystem remains balanced.</p>
+            <p>Use the <strong>Analytics</strong> tab to view the "Funds Distributed by Category" and "Impact
+                Efficiency" charts, helping the community identify neglected research areas.</p>
         </div>
 
     </div>
