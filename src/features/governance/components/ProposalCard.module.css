@@ -1,0 +1,185 @@
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.badgeTop {
+    position: absolute;
+    top: -24px;
+    /* Pulls it up into the padding area */
+    right: -24px;
+    background: linear-gradient(135deg, var(--gold) 0%, #d97706 100%);
+    color: #0f172a;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-bottom-left-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badgeTop.silver {
+    background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+    color: white;
+}
+
+.proposerInfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: var(--foreground);
+    border: 1px solid var(--border);
+}
+
+.proposerMeta {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.proposerName {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--foreground);
+}
+
+.authScore {
+    font-size: 11px;
+    color: var(--gold);
+    font-weight: 600;
+}
+
+.authScore.silver {
+    color: #cbd5e1;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #f8fafc;
+}
+
+.description {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 20px;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.tags {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.tag {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #cbd5e1;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.metricsGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+    background: rgba(15, 23, 42, 0.3);
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.metric {
+    display: flex;
+    flex-direction: column;
+}
+
+.metricValue {
+    font-family: monospace;
+    font-size: 14px;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.metricLabel {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+
+.voteProgress {
+    margin-bottom: 20px;
+}
+
+/* Custom Progress Bar */
+.progressContainer {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    margin-bottom: 8px;
+    overflow: hidden;
+}
+
+.progressFill {
+    height: 100%;
+    background: var(--secondary);
+    border-radius: 3px;
+    transition: width 0.5s ease-out;
+}
+
+.voteStats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.passing {
+    color: var(--primary);
+}
+
+.failing {
+    color: var(--alert);
+}
+
+.voteButton {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: linear-gradient(135deg, var(--secondary) 0%, #a855f7 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(192, 132, 252, 0.25);
+}
+
+.voteButton:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(192, 132, 252, 0.35);
+}

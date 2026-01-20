@@ -1,0 +1,22 @@
+.primaryBtn {
+    background: linear-gradient(135deg, var(--primary) 0%, #059669 100%);
+    color: white !important;
+    box-shadow: 0 4px 12px var(--primary-glow);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.primaryBtn:hover {
+    transform: translateY(-1px);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 25px;
+}

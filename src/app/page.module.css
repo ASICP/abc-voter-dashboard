@@ -1,0 +1,69 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--border);
+}
+
+.walletBadge {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--primary);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-family: monospace;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.discoveryBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.filters {
+  display: flex;
+  gap: 15px;
+  background: rgba(30, 41, 59, 0.4);
+  padding: 5px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.filterBtn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.filterBtn.active {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--primary);
+}
+
+.primaryBtn {
+  background: linear-gradient(135deg, var(--primary) 0%, #059669 100%);
+  color: white !important;
+  /* Force white text */
+  box-shadow: 0 4px 12px var(--primary-glow);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.primaryBtn:hover {
+  transform: translateY(-1px);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 25px;
+}
