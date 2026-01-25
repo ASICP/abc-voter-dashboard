@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import { GlassCard } from '@/components/ui/GlassCard';
 import Link from 'next/link';
-import { useAccount, useWriteContract, useReadContract, useWaitForTransactionReceipt } from 'wagmi';
+import { useAccount, useWriteContract, useReadContract, useWaitForTransactionReceipt, useChainId } from 'wagmi';
 import { parseEther, formatEther } from 'viem';
 
 // --- CONTRACT CONFIG ---
@@ -26,7 +26,11 @@ const REQUIRED_STAKE = parseEther("5000"); // 5,000 ABC
 
 export default function CreateProposal() {
     const { address, isConnected } = useAccount();
+    const chainId = useChainId();
     const [step, setStep] = useState(1);
+    const [debugLog, setDebugLog] = useState<string[]>([]);
+
+    const addLog = (msg: string) => setDebugLog(prev => [...prev, `${new Date().toISOString().split('T')[1].split('.')[0]} ${msg}`]);
 
     // Form State
     const [formData, setFormData] = useState({
@@ -39,11 +43,11 @@ export default function CreateProposal() {
     });
 
     // Transaction State
-    const { writeContract: writeApprove, data: approveHash, isPending: isApprovePending } = useWriteContract();
+    const { writeContract: writeApprove, data: approveHash, isPending: isApprovePending, error: approveError } = useWriteContract();
     const { writeContract: writePropose, data: proposeHash, isPending: isProposePending, error: proposeError } = useWriteContract();
 
     // Read Allowance
-    const { data: allowance, refetch: refetchAllowance } = useReadContract({
+    const { data: allowance, refetch: refetchAllowance, error: readError } = useReadContract({
         address: TOKEN_ADDRESS,
         abi: TOKEN_ABI,
         functionName: 'allowance',
@@ -57,9 +61,16 @@ export default function CreateProposal() {
     // Refresh allowance after approval
     useEffect(() => {
         if (!isApproving && approveHash) {
+            addLog("Approval Configured! Refetching allowance...");
             refetchAllowance();
         }
     }, [isApproving, approveHash, refetchAllowance]);
+
+    useEffect(() => {
+        if (readError) addLog(`Read Error: ${readError.message}`);
+        if (approveError) addLog(`Approve Error: ${approveError.message}`);
+        if (proposeError) addLog(`Propose Error: ${proposeError.message}`);
+    }, [readError, approveError, proposeError]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -69,17 +80,25 @@ export default function CreateProposal() {
 
     // Handlers
     const handleApprove = () => {
-        writeApprove({
-            address: TOKEN_ADDRESS,
-            abi: TOKEN_ABI,
-            functionName: 'approve',
-            args: [CORE_ADDRESS, REQUIRED_STAKE],
-        });
+        addLog(`Approve Clicked. Chain: ${chainId}`);
+        addLog(`Token: ${TOKEN_ADDRESS}, Core: ${CORE_ADDRESS}`);
+
+        try {
+            writeApprove({
+                address: TOKEN_ADDRESS,
+                abi: TOKEN_ABI,
+                functionName: 'approve',
+                args: [CORE_ADDRESS, REQUIRED_STAKE],
+            });
+            addLog("Approve tx sent to wallet...");
+        } catch (e: any) {
+            addLog(`Catch Error: ${e.message}`);
+        }
     };
 
     const handleSubmit = () => {
-        // Mock IPFS Hash creation
         const dummyIpfsHash = `QmFakeHashForTest_${Date.now()}`;
+        addLog(`Submit Clicked. Chain: ${chainId}`);
 
         writePropose({
             address: CORE_ADDRESS,
@@ -119,6 +138,12 @@ export default function CreateProposal() {
         <div className={styles.container}>
             <div style={{ marginBottom: '20px' }}>
                 <Link href="/" style={{ color: 'var(--muted)', fontSize: '14px' }}>← Back to Hub</Link>
+            </div>
+
+            {/* DEBUG CONSOLE */}
+            <div style={{ background: '#000', color: '#0f0', padding: '10px', fontSize: '10px', fontFamily: 'monospace', marginBottom: '10px', borderRadius: '5px', maxHeight: '100px', overflowY: 'auto' }}>
+                <div>DEBUG CONSOLE (Chain: {chainId})</div>
+                {debugLog.map((l, i) => <div key={i}>{l}</div>)}
             </div>
 
             <div className={styles.header}>
@@ -237,13 +262,18 @@ export default function CreateProposal() {
                             <div>Required Stake</div>
                             <div className={styles.stakeAmount}>5,000 ABC</div>
                             <div style={{ fontSize: '12px', color: 'var(--muted)' }}>
-                                {allowance ? `Current Allowance: ${formatEther(allowance)} ABC` : 'Loading...'}
+                                {allowance !== undefined ? `Current Allowance: ${formatEther(allowance)} ABC` : 'Reading Config...'}
                             </div>
                         </div>
 
                         {proposeError && (
                             <div style={{ color: '#ef4444', marginBottom: '15px', fontSize: '14px' }}>
                                 Error: {proposeError.message.slice(0, 100)}...
+                            </div>
+                        )}
+                        {approveError && (
+                            <div style={{ color: '#ef4444', marginBottom: '15px', fontSize: '14px' }}>
+                                Approve Error: {approveError.message.slice(0, 100)}...
                             </div>
                         )}
 
