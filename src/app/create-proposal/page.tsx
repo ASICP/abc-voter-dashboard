@@ -32,8 +32,10 @@ export default function CreateProposal() {
     const [formData, setFormData] = useState({
         title: '',
         description: '',
-        budget: '1000', // Default 1k
-        deadline: '30'
+        tags: '',
+        budget: '5000',
+        deadline: '30',
+        deliverables: ''
     });
 
     // Transaction State
@@ -87,6 +89,9 @@ export default function CreateProposal() {
         });
     };
 
+    const nextStep = () => setStep(step + 1);
+    const prevStep = () => setStep(step - 1);
+
 
     // --- RENDER ---
 
@@ -120,27 +125,113 @@ export default function CreateProposal() {
                 <div className={`text-gradient-primary ${styles.title}`}>Create Governance Proposal</div>
             </div>
 
-            <GlassCard className={styles.formCard}>
-
-                {/* Simplified Steps for Testing */}
-                {step === 1 ? (
-                    <div className={styles.formSection}>
-                        <h3 className={styles.label}>1. Proposal Details</h3>
-                        <div className={styles.inputGroup}>
-                            <label className={styles.label}>Title</label>
-                            <input name="title" className={styles.input} placeholder="Research Title" value={formData.title} onChange={handleChange} />
-                        </div>
-                        <div className={styles.inputGroup}>
-                            <label className={styles.label}>Budget (ABC)</label>
-                            <input name="budget" type="number" className={styles.input} value={formData.budget} onChange={handleChange} />
-                        </div>
-                        <div className={styles.actions}>
-                            <button onClick={() => setStep(2)} className={`${styles.btn} ${styles.btnPrimary}`}>Next: Review & Stake</button>
+            <div className={styles.steps}>
+                {[1, 2, 3].map((s) => (
+                    <div key={s} className={`${styles.step} ${step === s ? styles.active : ''} ${step > s ? styles.completed : ''}`}>
+                        <div className={styles.stepNumber}>{s}</div>
+                        <div className={styles.stepLabel}>
+                            {s === 1 ? 'Details' : s === 2 ? 'Logistics' : 'Review & Stake'}
                         </div>
                     </div>
-                ) : (
+                ))}
+            </div>
+
+            <GlassCard className={styles.formCard}>
+
+                {step === 1 && (
                     <div className={styles.formSection}>
-                        <h3 className={styles.label}>2. Stake & Submit</h3>
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>Proposal Title</label>
+                            <input name="title" className={styles.input} placeholder="Research Title" value={formData.title} onChange={handleChange} />
+                        </div>
+
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>Abstract / Description</label>
+                            <textarea
+                                name="description"
+                                className={styles.textarea}
+                                placeholder="Describe the research problem..."
+                                value={formData.description}
+                                onChange={handleChange}
+                                style={{ minHeight: '100px' }}
+                            />
+                        </div>
+
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>Tags (comma separated)</label>
+                            <input
+                                name="tags"
+                                className={styles.input}
+                                placeholder="Security, Interpretability, Control..."
+                                value={formData.tags}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>Upload Specification (PDF/Markdown)</label>
+                            <div style={{ border: '1px dashed var(--border)', padding: '20px', textAlign: 'center', borderRadius: '8px', color: 'var(--muted)' }}>
+                                Drag & drop files or <span style={{ color: 'var(--primary)', cursor: 'pointer' }}>browse</span>
+                                <br /><span style={{ fontSize: '12px' }}>Will be pinned to IPFS (Simulated)</span>
+                            </div>
+                        </div>
+
+                        <div className={styles.actions}>
+                            <button onClick={nextStep} className={`${styles.btn} ${styles.btnPrimary}`}>Next: Logistics</button>
+                        </div>
+                    </div>
+                )}
+
+                {step === 2 && (
+                    <div className={styles.formSection}>
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>Requested Budget ($ABC)</label>
+                            <input name="budget" type="number" className={styles.input} value={formData.budget} onChange={handleChange} />
+                        </div>
+
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>Est. Duration (Days)</label>
+                            <input
+                                name="deadline"
+                                type="number"
+                                className={styles.input}
+                                placeholder="30"
+                                value={formData.deadline}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>Key Deliverables</label>
+                            <textarea
+                                name="deliverables"
+                                className={styles.textarea}
+                                placeholder="- GitHub Repository&#10;- arXiv Paper&#10;- Docker Container"
+                                value={formData.deliverables}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        <div className={styles.actions}>
+                            <button onClick={prevStep} className={`${styles.btn} ${styles.btnSecondary}`}>Back</button>
+                            <button onClick={nextStep} className={`${styles.btn} ${styles.btnPrimary}`}>Next: Review & Stake</button>
+                        </div>
+                    </div>
+                )}
+
+                {step === 3 && (
+                    <div className={styles.formSection}>
+                        <h3 style={{ fontSize: '18px', marginBottom: '10px' }}>Summary Review</h3>
+
+                        <div>
+                            <div className={styles.summaryKey}>About</div>
+                            <div className={styles.summaryValue}>{formData.title}</div>
+                        </div>
+
+                        <div>
+                            <div className={styles.summaryKey}>Budget & Timeline</div>
+                            <div className={styles.summaryValue}>{formData.budget} ABC • {formData.deadline} Days</div>
+                        </div>
 
                         <div className={styles.stakeBox}>
                             <div>Required Stake</div>
@@ -157,7 +248,7 @@ export default function CreateProposal() {
                         )}
 
                         <div className={styles.actions}>
-                            <button onClick={() => setStep(1)} className={`${styles.btn} ${styles.btnSecondary}`}>Back</button>
+                            <button onClick={prevStep} className={`${styles.btn} ${styles.btnSecondary}`}>Back</button>
 
                             {!hasEnoughAllowance ? (
                                 <button
