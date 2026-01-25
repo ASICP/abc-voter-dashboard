@@ -20,7 +20,8 @@ import {
 
 const config = getDefaultConfig({
     appName: 'ABC Beacon',
-    projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || 'YOUR_PROJECT_ID',
+     projectId: '3ea3d39e34475e983314249574517116',
+    // projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || 'YOUR_PROJECT_ID',
     chains: [base, baseSepolia, sepolia], 
     ssr: true,
 });
