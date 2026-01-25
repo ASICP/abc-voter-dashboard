@@ -11,6 +11,7 @@ import { WagmiProvider } from 'wagmi';
 import {
     base,
     baseSepolia,
+    sepolia,
 } from 'wagmi/chains';
 import {
     QueryClientProvider,
@@ -20,7 +21,7 @@ import {
 const config = getDefaultConfig({
     appName: 'ABC Beacon',
     projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || 'YOUR_PROJECT_ID',
-    chains: [base, baseSepolia],
+    chains: [base, baseSepolia, sepolia], 
     ssr: true,
 });
 
