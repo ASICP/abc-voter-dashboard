@@ -1,8 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: ["*"],
-  devIndicators: false,
+  env: {
+    NEXT_PUBLIC_ABC_TOKEN_ADDRESS: process.env.NEXT_PUBLIC_ABC_TOKEN_ADDRESS,
+    NEXT_PUBLIC_COMMONS_CORE_ADDRESS: process.env.NEXT_PUBLIC_COMMONS_CORE_ADDRESS,
+    NEXT_PUBLIC_AUTHORITY_SCORE_ADDRESS: process.env.NEXT_PUBLIC_AUTHORITY_SCORE_ADDRESS,
+    NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID
+  }
 };
 
 export default nextConfig;
