@@ -3,7 +3,6 @@ import styles from "./page.module.css";
 import { ProposalCard } from "@/features/governance/components/ProposalCard";
 import { MOCK_PROPOSALS } from "@/data/mockProposals";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { SimulatedBalance } from "@/components/ui/SimulatedBalance";
 
 export default function Home() {
   return (
@@ -19,7 +18,6 @@ export default function Home() {
           <Link href="/analytics" style={{ color: 'var(--muted)', fontWeight: 500 }}>Analytics</Link>
         </nav>
         <div className={styles.walletConnector}>
-          <SimulatedBalance />
           <ConnectButton showBalance={true} />
         </div>
       </header>
