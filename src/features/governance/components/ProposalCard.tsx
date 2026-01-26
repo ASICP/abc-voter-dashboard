@@ -3,12 +3,13 @@
 import React from 'react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import styles from './ProposalCard.module.css';
-import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
+import { useWriteContract, useWaitForTransactionReceipt, useReadContract, useAccount } from 'wagmi';
 
 // --- CONTRACT CONFIG ---
 const CORE_ADDRESS = '0xD2d09c9dE385f1B86B13c0e78fAa7A5Ff919e67D' as `0x${string}`;
 const CORE_ABI = [
-    { name: 'voteOnBounty', type: 'function', stateMutability: 'nonpayable', inputs: [{ name: 'bountyId', type: 'uint256' }, { name: 'support', type: 'bool' }], outputs: [] }
+    { name: 'voteOnBounty', type: 'function', stateMutability: 'nonpayable', inputs: [{ name: 'bountyId', type: 'uint256' }, { name: 'support', type: 'bool' }], outputs: [] },
+    { name: 'bountyVotes', type: 'function', stateMutability: 'view', inputs: [{ name: '', type: 'uint256' }, { name: '', type: 'address' }], outputs: [{ name: 'support', type: 'bool' }, { name: 'weight', type: 'uint256' }, { name: 'timestamp', type: 'uint256' }] }
 ] as const;
 
 export interface ProposalProps {
@@ -44,9 +45,27 @@ export const ProposalCard: React.FC<ProposalProps> = ({
     votes,
     actionButton
 }) => {
-    // Voting Logic
+    const { address } = useAccount();
+
+    // Check if User Voted
+    const { data: voteData, isLoading: isReadingVote } = useReadContract({
+        address: CORE_ADDRESS,
+        abi: CORE_ABI,
+        functionName: 'bountyVotes',
+        args: [BigInt(id), address || '0x0000000000000000000000000000000000000000'],
+        query: {
+            enabled: !!address, // Only fetch if wallet connected
+        }
+    });
+
+    const hasVoted = voteData && voteData[1] > BigInt(0); // weight > 0 means they voted
+
+    // Voting Transaction Logic
     const { writeContract: writeVote, data: voteHash, isPending } = useWriteContract();
     const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash: voteHash });
+
+    // Derived State: Did they just vote in this session?
+    const justVoted = isSuccess;
 
     const handleVote = () => {
         writeVote({
@@ -119,26 +138,43 @@ export const ProposalCard: React.FC<ProposalProps> = ({
                 </div>
             </div>
 
-            {/* Action */}
-            {actionButton || (
-                <button
-                    className={styles.voteButton}
-                    onClick={handleVote}
-                    disabled={isPending || isConfirming || isSuccess}
-                    style={{
-                        background: isSuccess ? '#10b981' : undefined,
-                        cursor: (isPending || isConfirming || isSuccess) ? 'not-allowed' : 'pointer'
-                    }}
-                >
-                    {isPending ? 'Check Wallet...' :
-                        isConfirming ? 'Voting...' :
-                            isSuccess ? 'Voted!' : 'Vote with Conviction'}
-                </button>
-            )}
+            {/* Action Area */}
+            {actionButton ? actionButton : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
 
-            {isSuccess && (
-                <div style={{ fontSize: '10px', marginTop: '10px', color: 'var(--muted)', textAlign: 'center' }}>
-                    Hash: {voteHash?.slice(0, 10)}...
+                    {/* Primary Button */}
+                    <button
+                        className={styles.voteButton}
+                        onClick={handleVote}
+                        disabled={isPending || isConfirming || hasVoted || justVoted}
+                        style={{
+                            background: (hasVoted || justVoted) ? '#10b981' : undefined,
+                            cursor: (isPending || isConfirming || hasVoted || justVoted) ? 'not-allowed' : 'pointer',
+                            opacity: (hasVoted || justVoted) ? 1.0 : undefined
+                        }}
+                    >
+                        {isPending ? 'Check Wallet...' :
+                            isConfirming ? 'Voting...' :
+                                (hasVoted || justVoted) ? 'You Voted ✅' : 'Vote with Conviction'}
+                    </button>
+
+                    {/* Receipt Link */}
+                    {(hasVoted || justVoted) && (
+                        <a
+                            href={`https://sepolia.etherscan.io/address/${address}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                                fontSize: '11px',
+                                color: 'var(--muted)',
+                                textAlign: 'center',
+                                textDecoration: 'underline',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            View Receipt on Etherscan ↗
+                        </a>
+                    )}
                 </div>
             )}
 
