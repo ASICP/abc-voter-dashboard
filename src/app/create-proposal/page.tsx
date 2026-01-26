@@ -8,8 +8,10 @@ import { useAccount, useWriteContract, useReadContract, useWaitForTransactionRec
 import { parseEther, formatEther } from 'viem';
 
 // --- CONTRACT CONFIG ---
-const CORE_ADDRESS = process.env.NEXT_PUBLIC_COMMONS_CORE_ADDRESS as `0x${string}`;
-const TOKEN_ADDRESS = process.env.NEXT_PUBLIC_ABC_TOKEN_ADDRESS as `0x${string}`;
+const CORE_ADDRESS = '0xD2d09c9dE385f1B86B13c0e78fAa7A5Ff919e67D' as `0x${string}`;
+const TOKEN_ADDRESS = '0xb85478520f56C4d88F8a02f9dd825D73F6a25145' as `0x${string}`;
+// const CORE_ADDRESS = process.env.NEXT_PUBLIC_COMMONS_CORE_ADDRESS as `0x${string}`;
+// const TOKEN_ADDRESS = process.env.NEXT_PUBLIC_ABC_TOKEN_ADDRESS as `0x${string}`;
 
 // Minimal ABIs
 const TOKEN_ABI = [
