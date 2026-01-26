@@ -1,3 +1,4 @@
+import { LiveProposalList } from "@/features/governance/components/LiveProposalList"; 
 import Link from "next/link";
 import styles from "./page.module.css";
 import { ProposalCard } from "@/features/governance/components/ProposalCard";
@@ -44,11 +45,8 @@ export default function Home() {
             <button className={styles.filterBtn}>💎 High Authority</button>
           </div>
         </div>
-
         <div className={styles.grid}>
-          {MOCK_PROPOSALS.map((proposal) => (
-            <ProposalCard key={proposal.id} {...proposal} />
-          ))}
+          <LiveProposalList />
         </div>
       </main>
     </div>
