@@ -36,7 +36,7 @@ export function LiveProposalList() {
         ]
     });
 
-    if (isLoading) return <div style={{color: 'var(--muted)', textAlign: 'center'}}>Loading On-Chain Proposals...</div>;
+    if (isLoading) return <div style={{ color: 'var(--muted)', textAlign: 'center' }}>Loading On-Chain Proposals...</div>;
 
     // Filter out null/error results or empty bounties
     const validProposals = data?.filter(r => r.status === 'success' && r.result).map((r, index) => {
@@ -45,25 +45,42 @@ export function LiveProposalList() {
         // If amount is 0, it likely doesn't exist
         if (p[3] === BigInt(0)) return null;
 
-        return {
-            id: index,
-            title: `Bounty #${index}`,
-            description: `IPFS Hash: ${p[2].substring(0, 20)}...`,
-            amount: formatEther(p[3]),
-            votes: 0,
-            timeLeft: "30 days",
-            tags: ["Research", "Sepolia"],
-            status: p[5] === 1 ? 'active' : 'unknown',
-            // ADDED FIELDS:
-            authorityTier: 'Gold',
-            proposer: p[1],
-            category: 'Research' 
-        };
+        const formattedAmount = formatEther(p[3]);
+        const proposerAddr = p[1] as string;
 
+        // Mapped to ProposalCard Interface
+        return {
+            id: index.toString(),
+            title: `Bounty #${index}`, // Placeholder Title
+            description: `IPFS Hash: ${p[2].substring(0, 20)}...`,
+
+            // Nested Proposer Object
+            proposer: {
+                name: `${proposerAddr.substring(0, 6)}...${proposerAddr.substring(38)}`,
+                avatar: '🧙‍♂️',
+                authorityScore: 100, // Placeholder
+                authorityTier: 'Gold' as const
+            },
+
+            tags: ["Research", "Sepolia"],
+
+            // Nested Metrics Object
+            metrics: {
+                budget: `${parseFloat(formattedAmount).toLocaleString()} ABC`,
+                daysRemaining: 30
+            },
+
+            // Nested Votes Object
+            votes: {
+                count: 0,
+                passing: false,
+                percentage: 0
+            }
+        };
     }).filter(Boolean) || [];
 
     if (validProposals.length === 0) {
-        return <div style={{color: 'var(--muted)', textAlign: 'center'}}>No Active Proposals Found.</div>;
+        return <div style={{ color: 'var(--muted)', textAlign: 'center' }}>No Active Proposals Found.</div>;
     }
 
     return (
