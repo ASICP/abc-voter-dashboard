@@ -3,13 +3,6 @@
 import React from 'react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import styles from './ProposalCard.module.css';
-import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
-
-// --- CONTRACT CONFIG ---
-const CORE_ADDRESS = '0xD2d09c9dE385f1B86B13c0e78fAa7A5Ff919e67D' as `0x${string}`;
-const CORE_ABI = [
-    { name: 'voteOnBounty', type: 'function', stateMutability: 'nonpayable', inputs: [{ name: 'bountyId', type: 'uint256' }, { name: 'support', type: 'bool' }], outputs: [] }
-] as const;
 
 export interface ProposalProps {
     id: string;
@@ -35,7 +28,6 @@ export interface ProposalProps {
 }
 
 export const ProposalCard: React.FC<ProposalProps> = ({
-    id,
     title,
     description,
     proposer,
@@ -44,19 +36,6 @@ export const ProposalCard: React.FC<ProposalProps> = ({
     votes,
     actionButton
 }) => {
-    // Voting Logic
-    const { writeContract: writeVote, data: voteHash, isPending } = useWriteContract();
-    const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash: voteHash });
-
-    const handleVote = () => {
-        writeVote({
-            address: CORE_ADDRESS,
-            abi: CORE_ABI,
-            functionName: 'voteOnBounty',
-            args: [BigInt(id), true], // Always vote YES for V1
-        });
-    };
-
     const isGoldTier = ['Gold', 'Platinum', 'Diamond'].includes(proposer.authorityTier);
     const badgeClass = isGoldTier ? '' : styles.silver;
     const scoreClass = isGoldTier ? '' : styles.silver;
@@ -123,23 +102,10 @@ export const ProposalCard: React.FC<ProposalProps> = ({
             {actionButton || (
                 <button
                     className={styles.voteButton}
-                    onClick={handleVote}
-                    disabled={isPending || isConfirming || isSuccess}
-                    style={{
-                        background: isSuccess ? '#10b981' : undefined,
-                        cursor: (isPending || isConfirming || isSuccess) ? 'not-allowed' : 'pointer'
-                    }}
+                    onClick={() => alert("Voting functionality will require a smart contract transaction signature.")}
                 >
-                    {isPending ? 'Check Wallet...' :
-                        isConfirming ? 'Voting...' :
-                            isSuccess ? 'Voted!' : 'Vote with Conviction'}
+                    Vote with Conviction
                 </button>
-            )}
-
-            {isSuccess && (
-                <div style={{ fontSize: '10px', marginTop: '10px', color: 'var(--muted)', textAlign: 'center' }}>
-                    Hash: {voteHash?.slice(0, 10)}...
-                </div>
             )}
 
         </GlassCard>
