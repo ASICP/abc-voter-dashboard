@@ -47,14 +47,19 @@ export function LiveProposalList() {
 
         return {
             id: index,
-            title: `Bounty #${index}`, // We store real title in IPFS, using Placeholder for now
+            title: `Bounty #${index}`,
             description: `IPFS Hash: ${p[2].substring(0, 20)}...`,
             amount: formatEther(p[3]),
-            votes: 0, // Voting data usually separate call
+            votes: 0,
             timeLeft: "30 days",
             tags: ["Research", "Sepolia"],
-            status: p[5] === 1 ? 'active' : 'unknown'
+            status: p[5] === 1 ? 'active' : 'unknown',
+            // ADDED FIELDS:
+            authorityTier: 'Gold',
+            proposer: p[1],
+            category: 'Research' 
         };
+
     }).filter(Boolean) || [];
 
     if (validProposals.length === 0) {
